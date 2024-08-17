@@ -1,0 +1,19 @@
+class Product {
+  Product({
+    required this.name,
+    required this.marketer,
+    required this.price,
+    required this.description,
+    required this.bought,
+    required this.category,
+    required this.images,
+  });
+
+  final String name;
+  final String marketer;
+  final int price;
+  final String description;
+  final int bought;
+  final String category;
+  final List<String> images;
+}
