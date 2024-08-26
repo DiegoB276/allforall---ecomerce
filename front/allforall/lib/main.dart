@@ -1,4 +1,9 @@
-import 'package:allforall/bussiness_view/screens/bussines_home_page.dart';
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
+import 'package:allforall/user_view/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BussinesHomePage(),
+      home: LoginPage(),
     );
   }
 }

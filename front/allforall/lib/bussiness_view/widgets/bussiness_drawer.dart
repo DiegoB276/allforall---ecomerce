@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'package:allforall/bussiness_view/screens/add_product_page.dart';
 import 'package:allforall/bussiness_view/screens/bussines_home_page.dart';
 import 'package:allforall/bussiness_view/screens/delete_prodcut_page.dart';

@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 class Bussiness {
   Bussiness({
     required this.idBussiness,

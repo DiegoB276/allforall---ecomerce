@@ -1,4 +1,10 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
+import 'package:allforall/bussiness_view/widgets/item_product_search.dart';
 import 'package:flutter/material.dart';
 import '../utils/product_categories.dart';
 import '../widgets/button.dart';
@@ -73,7 +79,16 @@ class _SearchProductByCategoryPageState
                   width: MediaQuery.sizeOf(context).width * 0.35,
                   onTap: () {},
                 ),
-              )
+              ),
+              const SizedBox(height: 30),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (BuildContext context, int index) {
+                    return const ItemProductSearch();
+                  },
+                ),
+              ),
             ],
           ),
         ),

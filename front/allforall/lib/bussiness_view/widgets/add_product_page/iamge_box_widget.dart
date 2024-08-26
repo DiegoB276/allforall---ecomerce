@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';

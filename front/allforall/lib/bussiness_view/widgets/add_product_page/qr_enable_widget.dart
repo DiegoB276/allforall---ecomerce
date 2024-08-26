@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'package:allforall/bussiness_view/controllers/add_product_page_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';

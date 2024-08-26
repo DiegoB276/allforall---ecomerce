@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_text_form.dart';
 import 'package:allforall/bussiness_view/widgets/button.dart';

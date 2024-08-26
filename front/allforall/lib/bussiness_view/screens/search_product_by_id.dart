@@ -1,8 +1,15 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_text_form.dart';
 import 'package:allforall/bussiness_view/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../widgets/item_product_search.dart';
 
 class SearchProductByIdPage extends StatefulWidget {
   const SearchProductByIdPage({super.key});
@@ -166,7 +173,11 @@ class _SearchProductByIdPageState extends State<SearchProductByIdPage> {
                   width: MediaQuery.sizeOf(context).width * 0.35,
                   onTap: () {},
                 ),
-              )
+              ),
+
+              const SizedBox(height: 30),
+
+              const ItemProductSearch(),
             ],
           ),
         ),

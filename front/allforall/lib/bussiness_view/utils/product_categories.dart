@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 List<String> categories = [
   "Aseo",
   "Automotriz",

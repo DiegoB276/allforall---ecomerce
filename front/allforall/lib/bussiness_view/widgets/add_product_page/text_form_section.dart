@@ -1,3 +1,9 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
+import 'package:allforall/bussiness_view/widgets/add_product_page/title_camp_text.dart';
 import 'package:flutter/material.dart';
 
 import '../bussiness_text_form.dart';
@@ -21,10 +27,7 @@ class TextFormsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Nombre del Producto",
-          style: TextStyle(fontSize: 17),
-        ),
+        const TittleCampProduct(label: "Nombre del Producto"),
         const SizedBox(height: 8),
         BussinessTextForm(
           controller: nameProductController,
@@ -32,10 +35,7 @@ class TextFormsSection extends StatelessWidget {
           textInputType: TextInputType.name,
         ),
         const SizedBox(height: 20),
-        const Text(
-          "Descripción del Producto",
-          style: TextStyle(fontSize: 17),
-        ),
+        const TittleCampProduct(label: "Descripción del Producto"),
         const SizedBox(height: 8),
         BussinessTextForm(
           controller: descriptionProductController,
@@ -50,10 +50,7 @@ class TextFormsSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Precio",
-                    style: TextStyle(fontSize: 17),
-                  ),
+                  const TittleCampProduct(label: "Precio"),
                   const SizedBox(height: 8),
                   BussinessTextForm(
                     controller: priceProductController,
@@ -68,10 +65,7 @@ class TextFormsSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Cantidad Stock",
-                    style: TextStyle(fontSize: 17),
-                  ),
+                  const TittleCampProduct(label: "Cantidad Stock"),
                   const SizedBox(height: 8),
                   BussinessTextForm(
                     controller: amountProductController,

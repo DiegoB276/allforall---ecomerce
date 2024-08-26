@@ -1,3 +1,9 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
+import 'package:allforall/user_view/screens/products_by_category_page.dart';
 import 'package:allforall/user_view/utils/data.dart';
 import 'package:flutter/material.dart';
 
@@ -24,38 +30,51 @@ class CategoriesPage extends StatelessWidget {
             crossAxisCount: 2,
           ),
           itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                //color: Colors.orange,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: const Border(
-                          top: BorderSide(color: Colors.black),
-                          bottom: BorderSide(color: Colors.black),
-                          left: BorderSide(color: Colors.black),
-                          right: BorderSide(color: Colors.black),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductsByCategoryPage(
+                      category: categorias[index][0],
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  //color: Colors.orange,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: const Border(
+                            top: BorderSide(color: Colors.black),
+                            bottom: BorderSide(color: Colors.black),
+                            left: BorderSide(color: Colors.black),
+                            right: BorderSide(color: Colors.black),
+                          ),
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset(
+                          categorias[index][1],
+                          width: 80,
+                          height: 80,
+                        ),
                       ),
-                      child: Image.asset(
-                        "assets/icons/icon_category.png",
-                        width: 80,
+                      Text(
+                        categorias[index][0],
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "${categorias[index][0]}",
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

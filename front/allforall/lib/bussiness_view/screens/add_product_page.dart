@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'package:allforall/bussiness_view/utils/product_categories.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_text_form.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
@@ -7,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import '../widgets/add_product_page/list_view_images_selected.dart';
 import '../widgets/add_product_page/text_form_section.dart';
+import '../widgets/add_product_page/title_camp_text.dart';
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({super.key});
@@ -153,10 +159,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 15),
-                const Text(
-                  "ID o Código del Producto",
-                  style: TextStyle(fontSize: 17),
-                ),
+                const TittleCampProduct(label: "ID o Código del Producto"),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -233,10 +236,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   amountProductController: amountProductController,
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  "Categoría del producto",
-                  style: TextStyle(fontSize: 17),
-                ),
+                const TittleCampProduct(label: "Categoría del producto"),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   value: dropdownValue,

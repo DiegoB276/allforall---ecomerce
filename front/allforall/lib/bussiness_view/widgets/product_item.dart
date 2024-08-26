@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {

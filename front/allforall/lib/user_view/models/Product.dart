@@ -1,3 +1,8 @@
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
 class Product {
   Product({
     required this.name,
@@ -5,6 +10,7 @@ class Product {
     required this.price,
     required this.description,
     required this.bought,
+    required this.amount,
     required this.category,
     required this.images,
   });
@@ -14,6 +20,7 @@ class Product {
   final int price;
   final String description;
   final int bought;
+  final int amount;
   final String category;
   final List<String> images;
 }

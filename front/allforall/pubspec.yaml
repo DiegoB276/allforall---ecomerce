@@ -38,6 +38,8 @@ dependencies:
   google_fonts: ^6.2.1
   qr_code_scanner: ^1.0.1
   image_picker: ^1.1.2
+  country_state_city: ^0.1.6
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +67,7 @@ flutter:
   assets:
     - assets/img/
     - assets/icons/
+    - assets/categories/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

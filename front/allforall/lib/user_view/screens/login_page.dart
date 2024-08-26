@@ -1,7 +1,13 @@
-import 'package:allforall/user_view/screens/home_page.dart';
+/*
+  © All rights reserved.
+  © By allforall - 2024
+*/
+
+import 'package:allforall/user_view/screens/register_page.dart';
 import 'package:allforall/user_view/widgets/button.dart';
 import 'package:flutter/material.dart';
 import '../widgets/login_page_widgets/login_text_field.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -103,7 +109,14 @@ class _LoginPageState extends State<LoginPage> {
 
                   //Register Button
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterPage(),
+                        ),
+                      );
+                    },
                     color: const Color.fromARGB(255, 231, 231, 231),
                     textColor: Colors.black,
                     elevation: 8,
