@@ -44,38 +44,34 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     double sizeScreen = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            color: Colors.black,
-            image: DecorationImage(
-              image: AssetImage("assets/bg.jpg"),
-              fit: BoxFit.cover,
-              opacity: 0.6,
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.black,
+          image: DecorationImage(
+            image: AssetImage("assets/bg.jpg"),
+            fit: BoxFit.cover,
+            opacity: 0.6,
           ),
-          child: SingleChildScrollView(
-            child: Center(
-              child: (sizeScreen < mobileSize)
-                  ? LoginPageMobileLayout(
-                      emailController: emailController,
-                      passwordController: passwordController,
-                      isHint: isHint,
-                      setHintState: setHintState,
-                    )
-                  : LoginPageDesktopLayout(
-                      emailController: emailController,
-                      passwordController: passwordController,
-                      width: (sizeScreen < 1090 && sizeScreen > mobileSize)
-                          ? MediaQuery.sizeOf(context).width * 0.25
-                          : MediaQuery.sizeOf(context).width * 0.18,
-                      isHint: isHint,
-                      setHintState: setHintState,
-                    ),
-            ),
-          ),
+        ),
+        child: Center(
+          child: (sizeScreen < mobileSize)
+              ? LoginPageMobileLayout(
+                  emailController: emailController,
+                  passwordController: passwordController,
+                  isHint: isHint,
+                  setHintState: setHintState,
+                )
+              : LoginPageDesktopLayout(
+                  emailController: emailController,
+                  passwordController: passwordController,
+                  width: (sizeScreen < 1090 && sizeScreen > mobileSize)
+                      ? MediaQuery.sizeOf(context).width * 0.25
+                      : MediaQuery.sizeOf(context).width * 0.18,
+                  isHint: isHint,
+                  setHintState: setHintState,
+                ),
         ),
       ),
     );
