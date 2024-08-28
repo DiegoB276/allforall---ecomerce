@@ -140,14 +140,14 @@ class LoginPageMobileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.sizeOf(context).width * 0.8,
-          height: MediaQuery.sizeOf(context).height * 0.9,
-          decoration: BoxDecoration(
-            color: const Color(0xffCDCDCD),
-            borderRadius: BorderRadius.circular(7),
-          ),
+      child: Container(
+        width: MediaQuery.sizeOf(context).width * 0.8,
+        height: MediaQuery.sizeOf(context).height * 0.9,
+        decoration: BoxDecoration(
+          color: const Color(0xffCDCDCD),
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -232,6 +232,7 @@ class LoginPageMobileLayout extends StatelessWidget {
                     );
                   },
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
