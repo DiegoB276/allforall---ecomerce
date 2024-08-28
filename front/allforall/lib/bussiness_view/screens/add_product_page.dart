@@ -3,10 +3,10 @@
   © By allforall - 2024
 */
 
-import 'package:allforall/bussiness_view/utils/product_categories.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_text_form.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
 import 'package:allforall/bussiness_view/widgets/button.dart';
+import 'package:allforall/utils/bussiness_categories.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class _AddProductPageState extends State<AddProductPage> {
   late TextEditingController priceProductController;
   late TextEditingController amountProductController;
 
-  String dropdownValue = categories.first;
+  String dropdownValue = bussinesCategories.first;
 
   //Images Variables
   final ImagePicker picker = ImagePicker();
@@ -98,7 +98,7 @@ class _AddProductPageState extends State<AddProductPage> {
     setState(() {
       isConfirmImages = true;
     });
-    print(imagesToSend);
+    //print(imagesToSend);
   }
 
   void onPressCancelButton() {
@@ -245,8 +245,8 @@ class _AddProductPageState extends State<AddProductPage> {
                       dropdownValue = newValue!;
                     });
                   },
-                  items:
-                      categories.map<DropdownMenuItem<String>>((String value) {
+                  items: bussinesCategories
+                      .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),

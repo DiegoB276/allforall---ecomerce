@@ -5,8 +5,8 @@
 
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
 import 'package:allforall/bussiness_view/widgets/item_product_search.dart';
+import 'package:allforall/utils/bussiness_categories.dart';
 import 'package:flutter/material.dart';
-import '../utils/product_categories.dart';
 import '../widgets/button.dart';
 
 class SearchProductByCategoryPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class SearchProductByCategoryPage extends StatefulWidget {
 
 class _SearchProductByCategoryPageState
     extends State<SearchProductByCategoryPage> {
-  String dropdownValue = categories.first;
+  String dropdownValue = bussinesCategories.first;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,8 @@ class _SearchProductByCategoryPageState
                     dropdownValue = newValue!;
                   });
                 },
-                items: categories.map<DropdownMenuItem<String>>((String value) {
+                items: bussinesCategories
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),

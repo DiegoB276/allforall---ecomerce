@@ -4,7 +4,7 @@
 */
 
 import 'package:allforall/user_view/screens/products_by_category_page.dart';
-import 'package:allforall/user_view/utils/data.dart';
+import 'package:allforall/utils/data.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesPage extends StatelessWidget {

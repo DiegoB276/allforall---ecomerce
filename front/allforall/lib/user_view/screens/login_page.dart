@@ -3,6 +3,8 @@
   © By allforall - 2024
 */
 
+import 'package:allforall/bussiness_view/screens/bussines_home_page.dart';
+import 'package:allforall/utils/account_data.dart';
 import 'package:allforall/user_view/screens/register_page.dart';
 import 'package:allforall/user_view/widgets/button.dart';
 import 'package:flutter/material.dart';
@@ -97,12 +99,33 @@ class _LoginPageState extends State<LoginPage> {
                     textSize: 23,
                     width: MediaQuery.sizeOf(context).width,
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
+                      for (var account in accounts) {
+                        if (emailController.text == account["email"] &&
+                            passwordController.text == account["password"]) {
+                          switch (account["rol"]) {
+                            case 2:
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BussinesHomePage(),
+                                ),
+                              );
+                              break;
+                            case 3:
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ),
+                              );
+                              break;
+
+                            default:
+                              null;
+                          }
+                        }
+                      }
                     },
                   ),
                   const SizedBox(height: 30),

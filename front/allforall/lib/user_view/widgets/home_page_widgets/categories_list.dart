@@ -3,7 +3,7 @@
   © By allforall - 2024
 */
 
-import 'package:allforall/user_view/utils/data.dart';
+import 'package:allforall/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

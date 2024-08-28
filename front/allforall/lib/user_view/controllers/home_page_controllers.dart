@@ -5,7 +5,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../utils/data.dart';
+import '../../utils/data.dart';
 
 class HomePageControllers {
   static final PageController pageController = PageController(initialPage: 0);

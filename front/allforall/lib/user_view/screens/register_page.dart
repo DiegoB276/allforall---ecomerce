@@ -6,12 +6,11 @@
 import 'package:allforall/bussiness_view/widgets/add_product_page/title_camp_text.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_text_form.dart';
 import 'package:allforall/user_view/screens/login_page.dart';
-import 'package:allforall/user_view/utils/country_state_city.dart';
+import 'package:allforall/utils/country_state_city.dart';
 import 'package:allforall/user_view/widgets/date_box_selector.dart';
 import 'package:allforall/user_view/widgets/login_page_widgets/login_text_field.dart';
 import 'package:country_state_city/country_state_city.dart' as CP;
 import 'package:flutter/material.dart';
-
 import '../widgets/button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -30,6 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
+  late TextEditingController addressController;
   bool isHintPassword = true;
   String infoDate = '';
 
@@ -105,6 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    addressController = TextEditingController();
     getCountries();
   }
 
@@ -117,6 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
     idController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    addressController.dispose();
     confirmPasswordController.dispose();
   }
 
@@ -163,7 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 15),
                 const TittleCampProduct(label: "Número de Documento"),
                 BussinessTextForm(
-                  controller: lastnameController,
+                  controller: idController,
                   hintText: "Ej: XXXXXXXXXX",
                   textInputType: TextInputType.number,
                 ),
@@ -266,6 +268,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       selectedCity = newValue;
                     });
                   },
+                ),
+                const SizedBox(height: 15),
+                const TittleCampProduct(label: "Dirección de Residencia"),
+                BussinessTextForm(
+                  controller: addressController,
+                  hintText: "Ej: Cra 7 #4-27 Barrio...",
+                  textInputType: TextInputType.name,
                 ),
                 const SizedBox(height: 15),
                 const TittleCampProduct(label: "Fecha de Nacimiento"),

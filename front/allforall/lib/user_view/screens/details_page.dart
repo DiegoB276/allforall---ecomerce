@@ -4,15 +4,21 @@
 */
 
 import 'package:allforall/user_view/models/Product.dart';
+import 'package:allforall/utils/price_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
-class DetailsProductPage extends StatelessWidget {
+class DetailsProductPage extends StatefulWidget {
   const DetailsProductPage({super.key, required this.product});
 
   final Product product;
 
+  @override
+  State<DetailsProductPage> createState() => _DetailsProductPageState();
+}
+
+class _DetailsProductPageState extends State<DetailsProductPage> {
+  int amountToBuy = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +43,13 @@ class DetailsProductPage extends StatelessWidget {
               SizedBox(
                 height: 250,
                 child: PageView.builder(
-                  itemCount: product.images.length,
+                  itemCount: widget.product.images.length,
                   itemBuilder: (context, index) {
                     return ClipRect(
                       child: Padding(
                         padding: const EdgeInsets.all(10),
                         child: Image.asset(
-                          product.images[index],
+                          widget.product.images[index],
                           width: 200,
                           height: 200,
                         ),
@@ -60,7 +66,7 @@ class DetailsProductPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 10),
                     Text(
-                      "+ ${product.bought} vendidos.",
+                      "+ ${widget.product.bought} vendidos.",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[400],
@@ -69,7 +75,7 @@ class DetailsProductPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      "By ${product.marketer}",
+                      "By ${widget.product.marketer}",
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.grey[400],
@@ -77,7 +83,7 @@ class DetailsProductPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      product.name,
+                      widget.product.name,
                       style: const TextStyle(
                         fontSize: 27,
                         fontWeight: FontWeight.w700,
@@ -88,7 +94,7 @@ class DetailsProductPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 40),
                       child: Text(
-                        product.description,
+                        widget.product.description,
                         textAlign: TextAlign.left,
                         style: GoogleFonts.poppins(
                           fontSize: 15,
@@ -116,21 +122,15 @@ class DetailsProductPage extends StatelessWidget {
                             color: Colors.grey[300],
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Text(
-                            "\$${NumberFormat.currency(locale: 'es_CO', symbol: '', decimalDigits: 0).format(
-                              product.price,
-                            )}",
-                            style: GoogleFonts.robotoMono(
-                              fontSize: 23,
-                              fontWeight: FontWeight.w700,
-                            ),
+                          child: PriceFormatter(
+                            price: widget.product.price,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      "Unidades disponibles: ${product.amount}",
+                      "Unidades disponibles: ${widget.product.amount}",
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey[600],
@@ -146,7 +146,7 @@ class DetailsProductPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Sección de ${product.category}",
+                      "Sección de ${widget.product.category}",
                       style: TextStyle(
                         fontSize: 19,
                         color: Colors.grey[400],
@@ -160,16 +160,98 @@ class DetailsProductPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: 80,
-        child: MaterialButton(
-          onPressed: () {},
-          color: Colors.black,
-          textColor: Colors.white,
-          child: const Text(
-            "Agregar al Carrito",
-            style: TextStyle(fontSize: 20),
-          ),
+      bottomNavigationBar: Container(
+        color: Colors.black,
+        height: 120,
+        padding: const EdgeInsets.only(left: 5, bottom: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //Amount selected
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MaterialButton(
+                  color: Colors.white,
+                  minWidth: 20,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      amountToBuy > 0 ? amountToBuy-- : null;
+                    });
+                  },
+                  child: const Icon(
+                    Icons.arrow_left_sharp,
+                    color: Colors.black,
+                    size: 30,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    "$amountToBuy Unidades",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                MaterialButton(
+                  color: Colors.white,
+                  minWidth: 20,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      widget.product.amount > amountToBuy
+                          ? amountToBuy++
+                          : null;
+                    });
+                  },
+                  child: const Icon(
+                    Icons.arrow_right_sharp,
+                    color: Colors.black,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 50,
+              width: 220,
+              child: MaterialButton(
+                onPressed: () {},
+                color: Colors.white,
+                padding: const EdgeInsets.all(10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add_shopping_cart,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "Agregar al Carrito",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
