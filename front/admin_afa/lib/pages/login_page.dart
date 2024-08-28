@@ -55,23 +55,25 @@ class _LoginPageState extends State<LoginPage> {
             opacity: 0.6,
           ),
         ),
-        child: Center(
-          child: (sizeScreen < mobileSize)
-              ? LoginPageMobileLayout(
-                  emailController: emailController,
-                  passwordController: passwordController,
-                  isHint: isHint,
-                  setHintState: setHintState,
-                )
-              : LoginPageDesktopLayout(
-                  emailController: emailController,
-                  passwordController: passwordController,
-                  width: (sizeScreen < 1090 && sizeScreen > mobileSize)
-                      ? MediaQuery.sizeOf(context).width * 0.25
-                      : MediaQuery.sizeOf(context).width * 0.18,
-                  isHint: isHint,
-                  setHintState: setHintState,
-                ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: (sizeScreen < mobileSize)
+                ? LoginPageMobileLayout(
+                    emailController: emailController,
+                    passwordController: passwordController,
+                    isHint: isHint,
+                    setHintState: setHintState,
+                  )
+                : LoginPageDesktopLayout(
+                    emailController: emailController,
+                    passwordController: passwordController,
+                    width: (sizeScreen < 1090 && sizeScreen > mobileSize)
+                        ? MediaQuery.sizeOf(context).width * 0.25
+                        : MediaQuery.sizeOf(context).width * 0.18,
+                    isHint: isHint,
+                    setHintState: setHintState,
+                  ),
+          ),
         ),
       ),
     );
