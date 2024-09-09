@@ -3,13 +3,13 @@
   © By allforall - 2024
 */
 
-import 'package:allforall/bussiness_view/screens/bussines_home_page.dart';
-import 'package:allforall/utils/account_data.dart';
+import 'package:allforall/user_view/screens/home_page.dart';
 import 'package:allforall/user_view/screens/register_page.dart';
 import 'package:allforall/user_view/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../controllers/login_page_controller.dart';
 import '../widgets/login_page_widgets/login_text_field.dart';
-import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,6 +23,40 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController passwordController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isHint = true;
+  bool pressedLogin = false;
+
+  void isLoged(String email, String password) async {
+    bool result = await LoginPageController.isUserLoged(email, password);
+    if (result) {
+      userFound();
+      return;
+    }
+    userNotFound();
+    return;
+  }
+
+  void userFound() {
+    setState(() {
+      pressedLogin = false;
+    });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(),
+      ),
+    );
+  }
+
+  void userNotFound() {
+    setState(() {
+      pressedLogin = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Credenciales Inválidas"),
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -47,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -58,15 +93,19 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "assets/icons/logo.png",
-                    width: 130,
+                    "assets/icons/circa_logo2.png",
+                    width: 200,
+                    height: 200,
                   ),
                   const SizedBox(height: 20),
-                  const Text(
+                  Text(
                     "INICIA SESIÓN",
-                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.w700),
+                    style: GoogleFonts.notoSans(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   //Email TextFormField
                   TextFormEmail(emailController: emailController),
                   const SizedBox(height: 20),
@@ -88,8 +127,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
-
+                  const SizedBox(height: 30),
+                  pressedLogin
+                      ? Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : SizedBox.shrink(),
                   //Login Button
                   Button(
                     label: "Ingresar",
@@ -98,34 +144,11 @@ class _LoginPageState extends State<LoginPage> {
                     textColor: Colors.white,
                     textSize: 23,
                     width: MediaQuery.sizeOf(context).width,
-                    onTap: () {
-                      for (var account in accounts) {
-                        if (emailController.text == account["email"] &&
-                            passwordController.text == account["password"]) {
-                          switch (account["rol"]) {
-                            case 2:
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const BussinesHomePage(),
-                                ),
-                              );
-                              break;
-                            case 3:
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                              break;
-
-                            default:
-                              null;
-                          }
-                        }
-                      }
+                    onTap: () async {
+                      setState(() {
+                        pressedLogin = true;
+                      });
+                      isLoged(emailController.text, passwordController.text);
                     },
                   ),
                   const SizedBox(height: 30),

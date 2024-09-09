@@ -3,6 +3,7 @@
   © By allforall - 2024
 */
 
+import 'dart:io';
 import 'package:allforall/bussiness_view/widgets/bussiness_text_form.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
 import 'package:allforall/bussiness_view/widgets/button.dart';
@@ -33,8 +34,8 @@ class _AddProductPageState extends State<AddProductPage> {
   //Images Variables
   final ImagePicker picker = ImagePicker();
   List<XFile>? selectedImages = [];
-  List<XFile> finalSelectedImages = [];
-  List<String> imagesToSend = [];
+  List<List<int>> imagesAsBytes = [];
+  List<File> imagesAsFile = [];
   bool isConfirmImages = false;
 
   //QR variables
@@ -71,7 +72,11 @@ class _AddProductPageState extends State<AddProductPage> {
     });
   }
 
-  Future<void> pickImages() async {
+/*
+  Permite selecionar las imágenes desde el movil.
+  Retorna las imágenes seleccionadas.
+ */
+  Future<List<XFile>> pickImages() async {
     final List<XFile> images = await picker.pickMultiImage();
     if (images.isNotEmpty) {
       setState(() {
@@ -79,26 +84,52 @@ class _AddProductPageState extends State<AddProductPage> {
         selectedImages = images;
       });
     }
+    return selectedImages!;
   }
 
-  void addImagesToNewList() {
-    finalSelectedImages = selectedImages!;
-  }
-
-  void formatImage() {
-    for (var i in finalSelectedImages) {
-      var aux = i.path.split("/").last;
-      imagesToSend.add(aux);
+  /*
+    Convierte las imágenes seleccionadas en una Lista de bytes.
+    Retorna la lista de bytes.
+   */
+  Future<List<List<int>>> convertToBytes() async {
+    List<XFile> images = await pickImages();
+    for (var i in images) {
+      File imageFile = File(i.path);
+      List<int> imageToBytes = await imageFile.readAsBytes();
+      imagesAsBytes.add(imageToBytes);
     }
+    return imagesAsBytes;
   }
 
-  void sendImage() {
-    addImagesToNewList();
-    formatImage();
+  /*
+    Convierte una lista de listas de bytes en archivos de imagen.
+    Retorna unaa lista de archivos.
+
+    Esta función se ejecutará al momento de obtener los datos.
+   
+  Future<List<File>> convertImagesAsBytesToFile(
+    List<List<int>> imagesBy,
+  ) async {
+    List<List<int>> data = imagesBy;
+    final Directory tempDir = await getTemporaryDirectory();
+    final String tempPath = tempDir.path;
+    int index = 1;
+
+    for (var i in data) {
+      File file = File('$tempPath/image$index');
+      await file.writeAsBytes(i);
+      imagesAsFile.add(file);
+      index++;
+    }
+    return imagesAsFile;
+  }*/
+
+  void clearList() {
     setState(() {
-      isConfirmImages = true;
+      selectedImages = [];
+      imagesAsBytes = [];
+      imagesAsFile = [];
     });
-    //print(imagesToSend);
   }
 
   void onPressCancelButton() {
@@ -108,9 +139,6 @@ class _AddProductPageState extends State<AddProductPage> {
     priceProductController.clear();
     amountProductController.clear();
     isConfirmImages = false;
-    imagesToSend = [];
-    finalSelectedImages = [];
-    selectedImages = [];
   }
 
   @override
@@ -277,7 +305,7 @@ class _AddProductPageState extends State<AddProductPage> {
                     ),
                     MaterialButton(
                       onPressed: () {
-                        !isConfirmImages ? pickImages() : null;
+                        !isConfirmImages ? convertToBytes() : null;
                       },
                       color: Colors.black,
                       textColor: Colors.white,
@@ -294,11 +322,11 @@ class _AddProductPageState extends State<AddProductPage> {
                 const SizedBox(height: 5),
                 if (selectedImages != null && selectedImages!.isNotEmpty) ...[
                   ListViewImagesSelected(selectedImages: selectedImages),
-                  const SizedBox(height: 10),
+                  /*const SizedBox(height: 10),
                   Center(
                     child: (!isConfirmImages)
                         ? MaterialButton(
-                            onPressed: sendImage,
+                            onPressed: () {},
                             color: Colors.red[400],
                             textColor: Colors.white,
                             shape: RoundedRectangleBorder(
@@ -310,7 +338,7 @@ class _AddProductPageState extends State<AddProductPage> {
                             ),
                           )
                         : const SizedBox.shrink(),
-                  ),
+                  ),*/
                 ],
 
                 const Divider(height: 50),

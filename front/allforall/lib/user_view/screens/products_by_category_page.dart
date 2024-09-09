@@ -32,6 +32,7 @@ class ProductsByCategoryPage extends StatelessWidget {
         itemCount: filteredProducts.length,
         itemBuilder: (BuildContext context, int index) {
           Product product = Product(
+            codeProduct: "334324324",
             name: filteredProducts[index]['name'],
             marketer: filteredProducts[index]['marketer'],
             price: filteredProducts[index]['price'],

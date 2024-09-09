@@ -6,6 +6,7 @@
 class Product {
   Product({
     required this.name,
+    required this.codeProduct,
     required this.marketer,
     required this.price,
     required this.description,
@@ -15,6 +16,7 @@ class Product {
     required this.images,
   });
 
+  final String codeProduct;
   final String name;
   final String marketer;
   final int price;

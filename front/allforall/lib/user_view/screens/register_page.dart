@@ -5,12 +5,14 @@
 
 import 'package:allforall/bussiness_view/widgets/add_product_page/title_camp_text.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_text_form.dart';
+import 'package:allforall/user_view/controllers/register_page_controller.dart';
 import 'package:allforall/user_view/screens/login_page.dart';
 import 'package:allforall/utils/country_state_city.dart';
 import 'package:allforall/user_view/widgets/date_box_selector.dart';
 import 'package:allforall/user_view/widgets/login_page_widgets/login_text_field.dart';
 import 'package:country_state_city/country_state_city.dart' as CP;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../widgets/button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -30,8 +32,9 @@ class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   late TextEditingController addressController;
+  bool pressedLogin = false;
   bool isHintPassword = true;
-  String infoDate = '';
+  String infoDate = "";
 
 //Countries_City variables.
   List<CP.Country> countries = [];
@@ -80,10 +83,13 @@ class _RegisterPageState extends State<RegisterPage> {
         useRootNavigator: true,
       );
 
-      setState(() {
-        infoDate =
-            "${dateTimePicker!.year}-${dateTimePicker.month}-${dateTimePicker.day}";
-      });
+      if (dateTimePicker != null) {
+        setState(() {
+          String formattedDate =
+              DateFormat('yyyy-MM-dd').format(dateTimePicker);
+          infoDate = formattedDate;
+        });
+      }
     } catch (e) {
       e.toString();
     }
@@ -93,6 +99,66 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() {
       isHintPassword = !isHintPassword;
     });
+  }
+
+  void sendData(
+    String email,
+    String password,
+    String rol,
+    String image,
+    String name,
+    String lastname,
+    String phone,
+    String idDoc,
+    String country,
+    String state,
+    String city,
+    String bornDate,
+    String address,
+  ) async {
+    final bool registerProcess = await RegisterPageController.registerStatus(
+      email,
+      password,
+      rol,
+      image,
+      name,
+      lastname,
+      phone,
+      idDoc,
+      country,
+      state,
+      city,
+      bornDate,
+      address,
+    );
+    if (registerProcess) {
+      correctRegister();
+      return;
+    }
+    errorOnRegister("Error al crear cuenta");
+    return;
+  }
+
+  void correctRegister() async {
+    setState(() {
+      pressedLogin = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Cuenta creada con éxito."),
+      ),
+    );
+  }
+
+  void errorOnRegister(String message) async {
+    setState(() {
+      pressedLogin = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
@@ -131,7 +197,11 @@ class _RegisterPageState extends State<RegisterPage> {
         surfaceTintColor: Colors.white,
         title: const Text(
           "Crea tu Cuenta",
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Padding(
@@ -147,6 +217,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: nameController,
                   hintText: "Ej: Pepito Alonso",
                   textInputType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
                 ),
                 const SizedBox(height: 15),
                 const TittleCampProduct(label: "Apellidos"),
@@ -154,6 +225,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: lastnameController,
                   hintText: "Ej: Perez Gutierres",
                   textInputType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
                 ),
                 const SizedBox(height: 15),
                 const TittleCampProduct(label: "Celular"),
@@ -288,6 +360,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: emailController,
                   hintText: "Ej: ejemplo@ejemplo.com",
                   textInputType: TextInputType.emailAddress,
+                  textCapitalization: TextCapitalization.none,
                 ),
                 const SizedBox(height: 15),
                 const TittleCampProduct(label: "Contraseña"),
@@ -297,7 +370,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   onTap: setVisibility,
                 ),
                 const SizedBox(height: 15),
-                const TittleCampProduct(label: "ConfirmarContraseña"),
+                const TittleCampProduct(label: "Confirmar Contraseña"),
                 LoginTextFormPassword(
                   passwordController: confirmPasswordController,
                   isHint: isHintPassword,
@@ -305,6 +378,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 const SizedBox(height: 40),
+
+                pressedLogin
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : SizedBox.shrink(),
                 //Login Button
                 Button(
                   label: "Registrar",
@@ -313,13 +395,51 @@ class _RegisterPageState extends State<RegisterPage> {
                   textColor: Colors.white,
                   textSize: 23,
                   width: MediaQuery.sizeOf(context).width,
-                  onTap: () {
-                    /*Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );*/
+                  onTap: () async {
+                    setState(() {
+                      pressedLogin = true;
+                    });
+                    if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      errorOnRegister("Las contraseñas no coinciden");
+                      return;
+                    }
+                    if (RegisterPageController.validateFields(
+                          emailController.text,
+                          passwordController.text,
+                          "3",
+                          "assets/icons/logo.png",
+                          nameController.text,
+                          lastnameController.text,
+                          phoneController.text,
+                          idController.text,
+                          selectedCountry!.name,
+                          selectedState!.name,
+                          selectedCity!.name,
+                          infoDate,
+                          addressController.text,
+                        ) ==
+                        0) {
+                      sendData(
+                        emailController.text,
+                        passwordController.text,
+                        "3",
+                        "assets/icons/logo.png",
+                        nameController.text,
+                        lastnameController.text,
+                        phoneController.text,
+                        idController.text,
+                        selectedCountry!.name,
+                        selectedState!.name,
+                        selectedCity!.name,
+                        infoDate,
+                        addressController.text,
+                      );
+                      return;
+                    }
+
+                    errorOnRegister("Error al crear cuenta");
+                    return null;
                   },
                 ),
                 const SizedBox(height: 20),
