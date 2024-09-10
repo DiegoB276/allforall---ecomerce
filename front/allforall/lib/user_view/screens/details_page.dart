@@ -52,7 +52,8 @@ class _DetailsProductPageState extends State<DetailsProductPage> {
                           widget.product.images[index],
                           width: 200,
                           height: 200,
-                        ),
+                          color: Colors.white
+                        )
                       ),
                     );
                   },

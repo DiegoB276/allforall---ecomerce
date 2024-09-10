@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class APIService {
-  static const baseUrl = "https://l2hr13kj-5103.use.devtunnels.ms/api";
+  static const baseUrl = "YOUR BASE API";
 
   static Future<bool> loginService(Map data) async {
     var url = Uri.parse("$baseUrl/Auth/IniciarSesion");
