@@ -4,10 +4,11 @@
 */
 
 import 'package:allforall/user_view/screens/categories_page.dart';
+import 'package:allforall/user_view/screens/profile_page.dart';
+import 'package:allforall/user_view/screens/shopping_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../screens/cart_shop_page.dart';
+import '../screens/bag_shop_page.dart';
 
 class ContentDrawer extends StatelessWidget {
   const ContentDrawer({super.key});
@@ -32,7 +33,7 @@ class ContentDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CartShopPage(),
+                  builder: (context) => BagShopPage(),
                 ),
               );
             },
@@ -48,7 +49,14 @@ class ContentDrawer extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ShoppingPage(),
+                ),
+              );
+            },
             child: ListTile(
               leading: const Icon(Icons.shopping_bag_rounded),
               title: Text(
@@ -81,7 +89,14 @@ class ContentDrawer extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ),
+              );
+            },
             child: ListTile(
               leading: const Icon(Icons.person),
               title: Text(

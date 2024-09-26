@@ -3,13 +3,15 @@
   © By allforall - 2024
 */
 
-import 'package:allforall/user_view/screens/home_page.dart';
 import 'package:allforall/user_view/screens/register_page.dart';
+import 'package:allforall/user_view/services/api.dart';
 import 'package:allforall/user_view/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../controllers/login_page_controller.dart';
 import '../widgets/login_page_widgets/login_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,31 +24,26 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  SharedPreferences? pref;
   bool isHint = true;
   bool pressedLogin = false;
 
   void isLoged(String email, String password) async {
-    bool result = await LoginPageController.isUserLoged(email, password);
-    if (result) {
-      userFound();
+    int result = await LoginPageController.isUserLoged(email, password);
+    if (result == 0 || result == 1) {
+      userNotFound();
       return;
     }
-    userNotFound();
-    return;
+    setUserIDToPersistance(email);
+    await LoginPageController.navigateToHome(result, context);
   }
 
-  void userFound() {
-    setState(() {
-      pressedLogin = false;
-    });
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(),
-      ),
-    );
+//Inicia las preferencias para almacenar datos.
+  void initPreferences() async {
+    pref = await SharedPreferences.getInstance();
   }
 
+//Función que se ejecuta cuando no se encuentra un usuario.
   void userNotFound() {
     setState(() {
       pressedLogin = false;
@@ -58,9 +55,16 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+//Si la cuenta existe, almacena el id del usuario en el dispositivo.
+  void setUserIDToPersistance(String emailParam) async {
+    final data = await APIService.getUserIdByEmail(emailParam);
+    pref!.setInt("user_id", data!);
+  }
+
   @override
   void initState() {
     super.initState();
+    initPreferences();
     emailController = TextEditingController();
     passwordController = TextEditingController();
   }
@@ -130,9 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 30),
                   pressedLogin
                       ? Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(bottom: 15),
                           child: Center(
-                            child: CircularProgressIndicator(),
+                            child: LoadingAnimationWidget.threeArchedCircle(
+                              color: Colors.black,
+                              size: 35,
+                            ),
                           ),
                         )
                       : SizedBox.shrink(),
