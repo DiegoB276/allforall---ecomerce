@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class APIService {
-  static const baseUrl = "YOUR_BASE_URL";
+  static const baseUrl = "YOUR_API_HERE";
 
 //Inicia sesión en la app.
   static Future<int> loginService(Map data) async {
@@ -117,6 +117,7 @@ class APIService {
     return [];
   }
 
+//Obtiene la información de perfil del usuario
   static Future<Map<String, dynamic>?> getUserInformation(int id) async {
     final url = Uri.parse("$baseUrl/Usuario/$id");
     final response = await http.get(url);
@@ -125,16 +126,6 @@ class APIService {
       return data;
     }
     return null;
-  }
-
-  static Future<List<dynamic>> getShoppingUser(int userId) async {
-    final url = Uri.parse("$baseUrl/MisCompras/$userId");
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body);
-      return data;
-    }
-    return [];
   }
 
 //Agrega un producto al carrito del usuario.
@@ -146,5 +137,49 @@ class APIService {
       body: jsonEncode(data),
     );
     return (response.statusCode == 200) ? 0 : 1;
+  }
+
+//Obtiene las compras realizadas por el usuario.
+  static Future<List<dynamic>> getShoppingUser(int userId) async {
+    final url = Uri.parse("$baseUrl/MisCompras/$userId");
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data;
+    }
+    return [];
+  }
+
+//Agrega un producto a las compras del usuario.
+  static Future<int> addToMyBoughts(Map data) async {
+    final url = Uri.parse("$baseUrl/MisCompras/agregar");
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(data),
+    );
+    return (response.statusCode == 200) ? 0 : 1;
+  }
+
+//Elimina un producto del carrito del usuario.
+  static Future<int> deleteFromCart(Map data) async {
+    final url = Uri.parse("$baseUrl/Carrito/Eliminar");
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(data),
+    );
+    return response.statusCode == 200 ? 0 : 1;
+  }
+
+  //Elimina un producto del carrito del usuario.
+  static Future<int> deleteFromShopList(Map data) async {
+    final url = Uri.parse("$baseUrl/MisComop¿/Eliminar");
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(data),
+    );
+    return response.statusCode == 200 ? 0 : 1;
   }
 }

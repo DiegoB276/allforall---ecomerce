@@ -1,5 +1,6 @@
 import 'package:allforall/user_view/services/api.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +33,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
@@ -60,7 +62,30 @@ class _ShoppingPageState extends State<ShoppingPage> {
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (BuildContext context, int index) {
-              return Text("${snapshot.data![index]['prod']}");
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "ID: ${snapshot.data![index]['compraId']}",
+                        style: GoogleFonts.poppins(fontSize: 20),
+                      ),
+                      Text(
+                        "ID: ${snapshot.data![index]['prod']}",
+                        style: GoogleFonts.poppins(fontSize: 23, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
           );
         },

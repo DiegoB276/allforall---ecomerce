@@ -3,10 +3,13 @@
   © By allforall - 2024
 */
 
+//ARREGLAR EL COMPRAR PRODUCTOS, FALTA EL ID DEL PRODUCTO.
+
 import 'package:allforall/user_view/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,7 +36,62 @@ class _BagShopPageState extends State<BagShopPage> {
 
   int calculateTotal(List<dynamic> listParam) {
     //fold(valor_inicial, (var_acumuladora, lista_a_recorrer))
-    return listParam.fold(0, (value, item) => value + ((item['precio'] * item['cantidad']) as int));
+    return listParam.fold(0,
+        (value, item) => value + ((item['precio'] * item['cantidad']) as int));
+  }
+
+  void comprarProductos(List<dynamic> listParam) async {
+    for (int i = 0; i < listParam.length; i++) {
+      final data = {
+        "idProd": listParam[i]['productoId'],
+        "userId": userId,
+        "amount": listParam[i]['cantidad'],
+        "price": listParam[i]['precio'],
+      };
+      if (await APIService.addToMyBoughts(data) == 0) {
+        print("PRODUCTO AGREGADO: $i");
+      }
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Se ha realizado la compra!!",
+        ),
+      ),
+    );
+    deleteProductsAfterBuy(listParam);
+    return;
+  }
+
+  void deleteProductsAfterBuy(List<dynamic> listParam) async {
+    for (int i = 0; i < listParam.length; i++) {
+      final data = {
+        "productoId": listParam[i]['productoId'],
+        "usuarioId": userId,
+      };
+      if (await APIService.deleteFromCart(data) == 0) {
+        print("Producto Eliminado: $i");
+      }
+    }
+  }
+
+  void deleteProduct(int idProduct) async {
+    final data = {
+      "productoId": idProduct,
+      "usuarioId": userId,
+    };
+
+    if (await APIService.deleteFromCart(data) == 0) {
+      print("Producto Eliminado: $idProduct");
+    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const BagShopPage(),
+      ),
+    );
+    return;
   }
 
   @override
@@ -77,50 +135,63 @@ class _BagShopPageState extends State<BagShopPage> {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                child: Container(
-                  height: 80,
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Slidable(
+                  endActionPane: ActionPane(
+                    motion: const StretchMotion(),
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snapshot.data![index]['productoNombre'],
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 7),
-                          Text(
-                            "Cantidad: ${snapshot.data![index]['cantidad']}",
-                            style: GoogleFonts.poppins(
-                              fontSize: 18,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        "\$${NumberFormat.currency(locale: 'es_CO', symbol: '', decimalDigits: 0).format(
-                        snapshot.data![index]['precio']
-                      )}",
-                       
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          color: Colors.grey[600],
+                      SlidableAction(
+                        onPressed: (p0) => deleteProduct(
+                          snapshot.data![index]['productoId'],
                         ),
+                        icon: Icons.delete,
+                        backgroundColor:
+                            const Color.fromARGB(255, 94, 141, 131),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ],
+                  ),
+                  child: Container(
+                    height: 80,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              snapshot.data![index]['productoNombre'],
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 7),
+                            Text(
+                              "Cantidad: ${snapshot.data![index]['cantidad']}",
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "\$${NumberFormat.currency(locale: 'es_CO', symbol: '', decimalDigits: 0).format(snapshot.data![index]['precio'])}",
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -187,7 +258,9 @@ class _BagShopPageState extends State<BagShopPage> {
                 ),
                 const SizedBox(height: 10),
                 MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    comprarProductos(snapshot.data!);
+                  },
                   color: Colors.black,
                   textColor: Colors.white,
                   minWidth: MediaQuery.sizeOf(context).width * 0.9,
