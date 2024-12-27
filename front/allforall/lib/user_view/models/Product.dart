@@ -5,6 +5,7 @@
 
 class Product {
   Product({
+    required this.id,
     required this.name,
     required this.codeProduct,
     required this.marketer,
@@ -16,6 +17,7 @@ class Product {
     required this.images,
   });
 
+  final int id;
   final String codeProduct;
   final String name;
   final String marketer;

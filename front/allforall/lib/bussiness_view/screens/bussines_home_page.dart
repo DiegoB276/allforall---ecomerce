@@ -3,6 +3,7 @@
   © By allforall - 2024
 */
 
+import 'package:allforall/bussiness_view/screens/profile_bussiness_page.dart';
 import 'package:allforall/bussiness_view/widgets/bussiness_drawer.dart';
 import 'package:allforall/bussiness_view/widgets/product_item.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,11 +20,22 @@ class BussinesHomePage extends StatelessWidget {
         backgroundColor: Colors.grey[200],
         title: const Text("domingo, agosto 4"),
         centerTitle: true,
-        actions: const [
+        actions: [
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: CircleAvatar(
-              child: Icon(Icons.person),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileBussinessPage(),
+                  ),
+                );
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.black,
+                child: Icon(Icons.person, color: Colors.white),
+              ),
             ),
           )
         ],

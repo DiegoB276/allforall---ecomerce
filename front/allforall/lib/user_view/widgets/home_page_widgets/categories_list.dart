@@ -3,16 +3,18 @@
   © By allforall - 2024
 */
 
+
 import 'package:allforall/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../screens/products_by_category_page.dart';
 
 class CategoriesListView extends StatelessWidget {
   const CategoriesListView({
     super.key,
+    required this.categories
   });
+  final List<String> categories;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class CategoriesListView extends StatelessWidget {
       height: 160,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: (categorias.length < 5) ? categorias.length : 5,
+        itemCount: (categorias.length < 7) ? categorias.length : 7,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -30,7 +32,7 @@ class CategoriesListView extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProductsByCategoryPage(
-                      category: categorias[index][0],
+                      category: categories[index],
                     ),
                   ),
                 );

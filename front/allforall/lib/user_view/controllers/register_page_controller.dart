@@ -31,7 +31,7 @@ class RegisterPageController {
       "fechaNacimiento": bornDate,
       "direccion": address,
     };
-    final bool result = await APIService.registerService(data);
+    final bool result = await APIService.registerNewUser(data);
     return result;
   }
 

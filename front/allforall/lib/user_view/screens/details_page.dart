@@ -4,9 +4,11 @@
 */
 
 import 'package:allforall/user_view/models/Product.dart';
+import 'package:allforall/user_view/services/api.dart';
 import 'package:allforall/utils/price_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailsProductPage extends StatefulWidget {
   const DetailsProductPage({super.key, required this.product});
@@ -18,7 +20,43 @@ class DetailsProductPage extends StatefulWidget {
 }
 
 class _DetailsProductPageState extends State<DetailsProductPage> {
-  int amountToBuy = 0;
+  int amountToBuy = 1;
+  int userId = 0;
+  SharedPreferences? pref;
+
+  //Obtiene el id del usuario.
+  void getUserById() async {
+    pref = await SharedPreferences.getInstance();
+    final id = await pref!.getInt("user_id")!;
+    setState(() {
+      userId = id;
+    });
+  }
+
+//Agrega un producto al carro.
+  void addToCart() async {
+    Map data = {
+      "usuarioId": userId,
+      "productoId": widget.product.id,
+      "cantidad": amountToBuy,
+    };
+    if (await APIService.addToCart(data) == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "El producto se agregó al carrito!!",
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserById();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,14 +85,12 @@ class _DetailsProductPageState extends State<DetailsProductPage> {
                   itemBuilder: (context, index) {
                     return ClipRect(
                       child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset(
-                          widget.product.images[index],
-                          width: 200,
-                          height: 200,
-                          color: Colors.white
-                        )
-                      ),
+                          padding: const EdgeInsets.all(10),
+                          child: Image.asset(
+                            widget.product.images[index],
+                            width: 200,
+                            height: 200,
+                          )),
                     );
                   },
                 ),
@@ -181,7 +217,7 @@ class _DetailsProductPageState extends State<DetailsProductPage> {
                   ),
                   onPressed: () {
                     setState(() {
-                      amountToBuy > 0 ? amountToBuy-- : null;
+                      amountToBuy > 1 ? amountToBuy-- : null;
                     });
                   },
                   child: const Icon(
@@ -227,7 +263,9 @@ class _DetailsProductPageState extends State<DetailsProductPage> {
               height: 50,
               width: 220,
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  addToCart();
+                },
                 color: Colors.white,
                 padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(

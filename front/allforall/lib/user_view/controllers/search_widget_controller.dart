@@ -8,6 +8,7 @@ class SearchWidgetController {
 
     for (var p in products) {
       Product product = Product(
+        id: 22222,
         codeProduct: "334324324",
         name: p['name'],
         marketer: p['marketer'],
