@@ -6,21 +6,21 @@ Circa is an ecommerce project made for a big product types. Application has all 
 ## Images
 
 ### Home Screen
-![Home Screen](assets/circa_sc_1.jpeg)
+![Home Screen](front/allforall/assets/circa_sc_1.jpeg)
 #
 ### Detail Product Screen
-![detail Screen](assets/circa_sc_2.jpeg)
+![detail Screen](front/allforall/assets/circa_sc_2.jpeg)
 #
 ### Options Drawer
-![options Drawer](assets/circa_sc_3.jpeg)
+![options Drawer](front/allforall/assets/circa_sc_3.jpeg)
 #
 ### Categories Screen
-![categories Screen](assets/circa_sc_4.jpeg)
+![categories Screen](front/allforall/assets/circa_sc_4.jpeg)
 
 #
 ### Filter Search Screen
-![filter Screen](assets/circa_sc_5.jpeg)
+![filter Screen](front/allforall/assets/circa_sc_5.jpeg)
 
 #
 ### Shop Car Screen
-![Shop Car Screen](assets/circa_sc_6.jpeg)
+![Shop Car Screen](front/allforall/assets/circa_sc_6.jpeg)
